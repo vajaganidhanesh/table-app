@@ -16,18 +16,16 @@ function App() {
     setData((l) => l.filter((li, index) => index !== rowId));
   };
 
-  const deleteColumn = (a, b) => {
-    console.log(a);
-    console.log(b);
+  const deleteColumn = (index) => {
     setData((array) =>
       array.filter(function (val) {
-        return val.splice(b, 1);
+        return val.splice(index, 1);
       })
     );
   };
   return (
     <div className='container'>
-      <table className=' table-hover table-striped'>
+      <table className='table table-striped'>
         {data.length !== 0 ? (
           <>
             {data.map((vals, index) => {
@@ -38,16 +36,13 @@ function App() {
                       return (
                         <>
                           <button
-                            className='btn btn-secondary'
+                            className='btn btn-primary m-2'
                             onClick={() => {
-                              deleteColumn(vals, index);
+                              deleteColumn(index);
                             }}
                           >
-                            deleteColumn
+                            delCol{vals1}
                           </button>
-                          <td className='text-center' key={index}>
-                            {vals1}
-                          </td>
                         </>
                       );
                     })}
