@@ -43,6 +43,9 @@ function App() {
                           >
                             delCol{vals1}
                           </button>
+                          <td className='text-center' key={index}>
+                            {vals1}
+                          </td>
                         </>
                       );
                     })}
