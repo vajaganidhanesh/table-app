@@ -1,19 +1,39 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import CrudContext from "./Context/CrudContext";
-function Display() {
-  const {
-    data,
-    id,
-    name,
-    age,
-    state,
-    setSingleUser,
-    deleteData,
-    onChange,
-    Update,
-    onSubmit,
-  } = useContext(CrudContext);
-  console.log(state);
+
+function ReducerCrud() {
+  const { state, dispatch } = useContext(CrudContext);
+
+  const [data, setData] = useState({
+    id: "",
+    name: "",
+    age: "",
+  });
+
+  const { id, name, age } = data;
+  const onChange = (e) => {
+    setData((prev) => ({
+      ...prev,
+      [e.target.id]: e.target.value,
+    }));
+  };
+
+  const onSubmit = (e, data) => {
+    e.preventDefault();
+    dispatch({
+      type: "addUser",
+      payload: data,
+    });
+  };
+
+  const updateUser = (e, data) => {
+    e.preventDefault();
+    dispatch({
+      type: "updateUser",
+      payload: data,
+    });
+  };
+
   return (
     <>
       <div
@@ -78,13 +98,13 @@ function Display() {
                   type='button'
                   className='btn btn-primary'
                   data-bs-dismiss='modal'
-                  onClick={() => {
+                  onClick={(e) => {
                     let data = {
                       id: id,
                       name: name,
                       age: age,
                     };
-                    Update(data);
+                    updateUser(e, data);
                   }}
                 >
                   update
@@ -145,7 +165,7 @@ function Display() {
       </div>
       <div className='container d-flex'>
         <div className='col-4'>
-          {data.map((users, indexes) => {
+          {state.map((users, indexes) => {
             return (
               <div key={indexes} className='card p-4 m-2'>
                 <div className='card-title'>{users.name}</div>
@@ -154,7 +174,10 @@ function Display() {
                   <button
                     className='btn col-6 me-1 btn-primary'
                     onClick={() => {
-                      deleteData(users.id);
+                      dispatch({
+                        type: "deleteUser",
+                        payload: users.id,
+                      });
                     }}
                   >
                     delete
@@ -165,9 +188,6 @@ function Display() {
                     className='btn btn-primary'
                     data-bs-toggle='modal'
                     data-bs-target='#exampleModal'
-                    onClick={() => {
-                      setSingleUser(users);
-                    }}
                   >
                     update
                   </button>
@@ -181,4 +201,4 @@ function Display() {
   );
 }
 
-export default Display;
+export default ReducerCrud;

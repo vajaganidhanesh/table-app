@@ -1,14 +1,16 @@
-import { createContext, useState } from "react";
+import { createContext, useReducer, useState } from "react";
+import Reducer from "./crudReducer";
 
 const CrudContext = createContext();
-
 export const ContextProvider = ({ children }) => {
   const array = [
     { id: 1, name: "dhanesh", age: 23 },
     { id: 2, name: "vajgani", age: 23 },
     { id: 3, name: "Harish", age: 23 },
   ];
+
   const [data, setData] = useState(array);
+  const [state, dispatch] = useReducer(Reducer, array);
   const [singleUser, setSingleUser] = useState({
     id: "",
     name: "",
@@ -52,6 +54,8 @@ export const ContextProvider = ({ children }) => {
         id,
         name,
         age,
+        state,
+        dispatch,
         setSingleUser,
         deleteData,
         onChange,
